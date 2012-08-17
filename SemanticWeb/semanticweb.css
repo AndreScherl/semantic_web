@@ -1,0 +1,59 @@
+/*
+ * Copyright (C) 2012, Andre Scherl
+ * You should have received a copy of the GNU General Public License
+ * along with DASIS.  If not, see <http://www.gnu.org/licenses/>.
+ */
+ 
+body{
+	margin: 0;
+	overflow: hidden;
+	border: 0;
+}
+
+#wrapper{
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+		
+#caption{
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    /*width: 120px;*/
+    font-size: 0.7em;
+    font-family: Verdana,Georgia;
+    z-index: 80;
+}
+
+#reload_web{
+	text-decoration: none;
+	color: black;
+}
+
+ul{
+    list-style-position: inside;
+    margin: 0;
+    padding: 0;
+}
+
+.description{
+    display: none;
+    list-style: none;
+}
+
+li.captionPath {
+    cursor: pointer;
+    position: relative;
+}
+
+li.captionPath:hover span.description {
+    display: block;
+    position: absolute; 
+    top: 15px; 
+    left: 10px; 
+    width: 200px;
+    background-color: #FFFFCA;
+    border:1px solid #000000;
+    z-index: 100;
+}

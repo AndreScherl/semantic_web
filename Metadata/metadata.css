@@ -1,0 +1,57 @@
+/*
+ * Copyright (C) 2012, Andre Scherl
+ * You should have received a copy of the GNU General Public License
+ * along with DASIS.  If not, see <http://www.gnu.org/licenses/>.
+ */
+ 
+/*body {
+	background-color:#efefe9;
+	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size:0.8em;
+}
+
+a:link, a:visited {
+	color:#006633;
+	text-decoration:none;
+	font-weight:bold;
+}*/
+
+body {
+	/*overflow: hidden;*/
+}
+
+.leftColumn {
+	vertical-align:top;
+	width:35%;
+}
+
+.rightColumn {
+	width:65%;
+}
+
+#id_title,
+#id_description,
+#id_keywords, 
+#id_learning_tasks, 
+#id_taxonomy, 
+#id_relations, 
+#id_source, 
+#id_target, 
+#id_difficulty, 
+#id_linguistic_requirement, 
+#id_logical_requirement, 
+#id_social_requirement, 
+#id_learningstyle_perception, 
+#id_learningstyle_input, 
+#id_learningstyle_processing, 
+#id_learningstyle_perspective, 
+#id_learningstyle_organization, 
+#id_learning_time, 
+#id_catalog {
+	width:100%;
+}
+
+#id_relationslist {
+	list-style-position:outside;
+	padding-left:0px;
+}

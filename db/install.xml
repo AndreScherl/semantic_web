@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="blocks/semantic_web/db" VERSION="20110607" COMMENT="XMLDB file for Moodle mod/semantic_web"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="dasis_bundles" COMMENT="Bundles of Courses." NEXT="dasis_bundle_connections">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="name"/>
+        <FIELD NAME="name" TYPE="text" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="description"/>
+        <FIELD NAME="description" TYPE="text" NOTNULL="true" SEQUENCE="false" PREVIOUS="name"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="dasis_bundle_connections" COMMENT="connections of courses and bundles." PREVIOUS="dasis_bundles" NEXT="dasis_last_activity">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="bundle_id"/>
+        <FIELD NAME="bundle_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="course_id"/>
+        <FIELD NAME="course_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="bundle_id"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="bundle_id"/>
+        <KEY NAME="bundle_id" TYPE="foreign" FIELDS="bundle_id" REFTABLE="dasis_bundles" REFFIELDS="id" COMMENT="id of the bundle the course is connected with" PREVIOUS="primary" NEXT="course_id"/>
+        <KEY NAME="course_id" TYPE="foreign" FIELDS="course_id" REFTABLE="course" REFFIELDS="id" COMMENT="the course connected with bundle" PREVIOUS="bundle_id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="dasis_last_activity" COMMENT="the last activity visited by user" PREVIOUS="dasis_bundle_connections" NEXT="dasis_learning_paths">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="userid"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="courseid"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="userid" NEXT="course_module"/>
+        <FIELD NAME="course_module" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="courseid" NEXT="last_access"/>
+        <FIELD NAME="last_access" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="course_module"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="userid"/>
+        <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="id of the user" PREVIOUS="primary" NEXT="courseid"/>
+        <KEY NAME="courseid" TYPE="foreign" FIELDS="courseid" REFTABLE="course" REFFIELDS="id" COMMENT="id of the course containing the users last activity" PREVIOUS="userid" NEXT="course_module"/>
+        <KEY NAME="course_module" TYPE="foreign" FIELDS="course_module" REFTABLE="course_modules" REFFIELDS="id" COMMENT="course module of the users last activity" PREVIOUS="courseid"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="dasis_learning_paths" COMMENT="learning paths" PREVIOUS="dasis_last_activity" NEXT="dasis_modmeta">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="name"/>
+        <FIELD NAME="name" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="path"/>
+        <FIELD NAME="path" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="name" NEXT="color"/>
+        <FIELD NAME="color" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="none" SEQUENCE="false" PREVIOUS="path" NEXT="bundle_id"/>
+        <FIELD NAME="bundle_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="color"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="dasis_modmeta" COMMENT="metadata of activities" PREVIOUS="dasis_learning_paths" NEXT="dasis_relations">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="shortname"/>
+        <FIELD NAME="shortname" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="id" NEXT="linguistic_requirement"/>
+        <FIELD NAME="linguistic_requirement" TYPE="number" LENGTH="12" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="8" PREVIOUS="shortname" NEXT="logical_requirement"/>
+        <FIELD NAME="logical_requirement" TYPE="number" LENGTH="12" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="8" PREVIOUS="linguistic_requirement" NEXT="social_requirement"/>
+        <FIELD NAME="social_requirement" TYPE="number" LENGTH="12" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="8" PREVIOUS="logical_requirement" NEXT="learningstyle_perception"/>
+        <FIELD NAME="learningstyle_perception" TYPE="number" LENGTH="12" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="8" PREVIOUS="social_requirement" NEXT="learningstyle_organization"/>
+        <FIELD NAME="learningstyle_organization" TYPE="number" LENGTH="12" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="8" PREVIOUS="learningstyle_perception" NEXT="learningstyle_perspective"/>
+        <FIELD NAME="learningstyle_perspective" TYPE="number" LENGTH="12" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="8" PREVIOUS="learningstyle_organization" NEXT="learningstyle_input"/>
+        <FIELD NAME="learningstyle_input" TYPE="number" LENGTH="12" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="8" PREVIOUS="learningstyle_perspective" NEXT="difficulty"/>
+        <FIELD NAME="difficulty" TYPE="number" LENGTH="12" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="8" PREVIOUS="learningstyle_input" NEXT="learningstyle_processing"/>
+        <FIELD NAME="learningstyle_processing" TYPE="number" LENGTH="12" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="8" PREVIOUS="difficulty" NEXT="learning_time"/>
+        <FIELD NAME="learning_time" TYPE="number" LENGTH="12" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" DECIMALS="8" PREVIOUS="learningstyle_processing" NEXT="keywords"/>
+        <FIELD NAME="keywords" TYPE="text" LENGTH="big" NOTNULL="false" SEQUENCE="false" PREVIOUS="learning_time" NEXT="learning_tasks"/>
+        <FIELD NAME="learning_tasks" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="keywords" NEXT="taxonomy"/>
+        <FIELD NAME="taxonomy" TYPE="text" LENGTH="big" NOTNULL="false" SEQUENCE="false" PREVIOUS="learning_tasks" NEXT="catalog"/>
+        <FIELD NAME="catalog" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="taxonomy" NEXT="coursemoduleid"/>
+        <FIELD NAME="coursemoduleid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="catalog"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="dasis_relations" COMMENT="relations between activities" PREVIOUS="dasis_modmeta" NEXT="dasis_semantic_web_prefs">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="source"/>
+        <FIELD NAME="source" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="target"/>
+        <FIELD NAME="target" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="source" NEXT="type"/>
+        <FIELD NAME="type" TYPE="char" LENGTH="22" NOTNULL="true" DEFAULT="relation_bautauf" SEQUENCE="false" PREVIOUS="target"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="ilmsrela_soutartyp_uix"/>
+        <KEY NAME="ilmsrela_soutartyp_uix" TYPE="unique" FIELDS="source, target, type" PREVIOUS="primary"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="ilmsrela_sou_ix" UNIQUE="false" FIELDS="source" NEXT="ilmsrela_tar_ix"/>
+        <INDEX NAME="ilmsrela_tar_ix" UNIQUE="false" FIELDS="target" PREVIOUS="ilmsrela_sou_ix"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="dasis_semantic_web_prefs" COMMENT="prefs of semantic web" PREVIOUS="dasis_relations">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="block_id"/>
+        <FIELD NAME="block_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="false" SEQUENCE="false" PREVIOUS="id" NEXT="depth"/>
+        <FIELD NAME="depth" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="block_id" NEXT="adaption"/>
+        <FIELD NAME="adaption" TYPE="int" LENGTH="1" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="depth" NEXT="case_collection"/>
+        <FIELD NAME="case_collection" TYPE="int" LENGTH="1" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" PREVIOUS="adaption" NEXT="web_animation"/>
+        <FIELD NAME="web_animation" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" COMMENT="should the web be animated?" PREVIOUS="case_collection"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>
