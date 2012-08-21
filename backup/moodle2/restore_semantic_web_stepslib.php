@@ -54,7 +54,7 @@ class restore_semantic_web_block_structure_step extends restore_structure_step {
     	$data = (object)$data;
     	$oldid = $data->id;
     	
-    	$newitemid = $DB->insert_record("dasis_bundles", $data);
+    	$newitemid = $DB->insert_record("block_semantic_web_bundles", $data);
     	$this->set_mapping("bundle", $oldid, $newitemid);
     }
     
@@ -67,7 +67,7 @@ class restore_semantic_web_block_structure_step extends restore_structure_step {
     	$data->bundle_id = $this->get_mappingid("bundle", $oldid);
     	$data->course_id = $this->get_courseid();
     	
-    	$newitemid = $DB->insert_record("dasis_bundle_connections", $data);
+    	$newitemid = $DB->insert_record("block_semantic_web_bundle_connections", $data);
     }
     
     public function process_learning_path($data) {
@@ -78,7 +78,7 @@ class restore_semantic_web_block_structure_step extends restore_structure_step {
     	
     	$data->bundle_id = $this->get_mappingid("bundle", $oldid);
     	
-    	$newitemid = $DB->insert_record("dasis_learning_paths", $data);
+    	$newitemid = $DB->insert_record("block_semantic_web_learning_paths", $data);
     }
     
     public function process_modmeta($data) {
@@ -89,7 +89,7 @@ class restore_semantic_web_block_structure_step extends restore_structure_step {
     	//$data->coursemoduleid = $this->get_mappingid("coursemodule", $data->coursemoduleid);
     	$data->coursemoduleid = $DB->get_field("backup_ids_temp", "newitemid", array("itemid" => $oldid));
     	
-    	$newitemid = $DB->insert_record("dasis_modmeta", $data);
+    	$newitemid = $DB->insert_record("block_semantic_web_modmeta", $data);
     }
     
     public function process_relation($data) {
@@ -103,7 +103,7 @@ class restore_semantic_web_block_structure_step extends restore_structure_step {
     	$data->source = $DB->get_field("backup_ids_temp", "newitemid", array("itemid" => $oldsourceid));
     	$data->target = $DB->get_field("backup_ids_temp", "newitemid", array("itemid" => $oldtargetid));
     	
-    	$newitemid = $DB->insert_record("dasis_relations", $data);
+    	$newitemid = $DB->insert_record("block_semantic_web_relations", $data);
     }
     
     public function process_semantic_web_pref($data) {
@@ -114,7 +114,7 @@ class restore_semantic_web_block_structure_step extends restore_structure_step {
     	
     	$data->block_id = $this->get_mappingid("block_id", $oldid);
     	
-    	$newitemid = $DB->insert_record("dasis_semantic_web_prefs", $data);
+    	$newitemid = $DB->insert_record("block_semantic_web_semantic_web_prefs", $data);
     }
     
     public function process_last_activity($data) {
@@ -129,7 +129,7 @@ class restore_semantic_web_block_structure_step extends restore_structure_step {
     	$data->userid = $this->get_mappingid("user", $olduserid);
     	$data->course_module = $DB->get_field("backup_ids_temp", "newitemid", array("itemid" => $oldcmid));
     	
-    	$newitemid = $DB->insert_record("dasis_last_activity", $data);
+    	$newitemid = $DB->insert_record("block_semantic_web_last_activity", $data);
     }
     
     protected function after_execute() {

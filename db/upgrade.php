@@ -42,5 +42,17 @@ function xmldb_block_semantic_web_upgrade($oldversion) {
         upgrade_block_savepoint(true, 2011060712, 'semantic_web');
     }
     
+    if ($oldversion < 2012082100) {
+    	$dbman->rename_table("dasis_bundle_connections", "block_semantic_web_bundle_connections", $continue=true, $feedback=true);
+    	$dbman->rename_table("dasis_bundles", "block_semantic_web_bundles", $continue=true, $feedback=true);
+    	$dbman->rename_table("dasis_last_activity", "block_semantic_web_last_activity", $continue=true, $feedback=true);
+    	$dbman->rename_table("dasis_learning_paths", "block_semantic_web_learning_paths", $continue=true, $feedback=true);
+    	$dbman->rename_table("dasis_modmeta", "block_semantic_web_modmeta", $continue=true, $feedback=true);
+    	$dbman->rename_table("dasis_relations", "block_semantic_web_relations", $continue=true, $feedback=true);
+    	$dbman->rename_table("dasis_semantic_web_prefs", "block_semantic_web_semantic_web_prefs", $continue=true, $feedback=true);
+    	
+    	upgrade_block_savepoint(true, 2012082100, 'semantic_web');
+    }
+    
     return true;
 }

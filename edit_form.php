@@ -46,7 +46,7 @@ class block_semantic_web_edit_form extends block_edit_form {
         $allCourses = get_courses($categoryid="all", $sort="c.fullname ASC", $fields="c.id, c.fullname");
         
         // build a table for semantic web prefs
-        $webPrefs = $DB->get_record("dasis_semantic_web_prefs", array("block_id" => required_param("bui_editid", PARAM_NUMBER)));
+        $webPrefs = $DB->get_record("block_semantic_web_semantic_web_prefs", array("block_id" => required_param("bui_editid", PARAM_NUMBER)));
         $mform->addElement("html", "<table><tr><td>");
         // set the depth of semantic web (how many connections should be shown?)
         $mform->addElement("html", get_string('depth', $BLOCKNAME));
@@ -100,14 +100,14 @@ class block_semantic_web_edit_form extends block_edit_form {
         $mform->addElement("hidden", "hide_string", get_string("click_hide", $BLOCKNAME));
         
         //get all bundles
-        $allBundles = $DB->get_records("dasis_bundles");
+        $allBundles = $DB->get_records("block_semantic_web_bundles");
         
         //get current bundle connections
-        $bundleConnections = $DB->get_records("dasis_bundle_connections", array("course_id" => $this->page->course->id));
+        $bundleConnections = $DB->get_records("block_semantic_web_bundle_connections", array("course_id" => $this->page->course->id));
         
         //put an array of connections to bundleConnections
         foreach($allBundles as $oneBundle){
-        	$cob = $DB->get_records("dasis_bundle_connections", array("bundle_id" => $oneBundle->id)); // connections of bundle
+        	$cob = $DB->get_records("block_semantic_web_bundle_connections", array("bundle_id" => $oneBundle->id)); // connections of bundle
         	foreach($cob as $oneCob){
         		$allBundles[$oneBundle->id]->connections[] = $allCourses[$oneCob->course_id]->fullname;
         	}
@@ -147,7 +147,7 @@ class block_semantic_web_edit_form extends block_edit_form {
         				$mform->addElement("html", "<option value=\"0\" selected=\"selected\">".get_string("pleaseselect", $BLOCKNAME)."</option>"); //set default option
         				//list of all bundles
         				foreach($allBundles as $bundle){
-        					if(!$DB->record_exists("dasis_bundle_connections", array("bundle_id" => $bundle->id, "course_id" => $this->page->course->id))){
+        					if(!$DB->record_exists("block_semantic_web_bundle_connections", array("bundle_id" => $bundle->id, "course_id" => $this->page->course->id))){
         						$mform->addElement("html", "<option value=\"{$bundle->id}\">{$bundle->name}</option>"); //set bundles as options
         					}
         				}
@@ -161,7 +161,7 @@ class block_semantic_web_edit_form extends block_edit_form {
         // create new bundle
         $bundleId = optional_param("bundleId", 0, PARAM_INT);
         $mform->addElement("hidden", "bundleId", $bundleId);
-        if($bundleId) $currentBundle = $DB->get_record("dasis_bundles", array("id" => $bundleId));
+        if($bundleId) $currentBundle = $DB->get_record("block_semantic_web_bundles", array("id" => $bundleId));
         $mform->addElement("html", "<table id=\"id_new_bundle_table\">");
         	$mform->addElement("html", "<tr>");
         		$mform->addElement("html", "<td>");
@@ -197,7 +197,7 @@ class block_semantic_web_edit_form extends block_edit_form {
         		$mform->addElement("html", "<td>");
         			$mform->addElement("html", "<ul class=\"connectionlist\">");
         				//list of contained courses
-        				$connectionsOfBundle = $DB->get_records("dasis_bundle_connections", array("bundle_id" => $bundleId));
+        				$connectionsOfBundle = $DB->get_records("block_semantic_web_bundle_connections", array("bundle_id" => $bundleId));
         				foreach($connectionsOfBundle as $connection){
         					$mform->addElement("html", "<li>".$allCourses[$connection->course_id]->fullname." ");
         					$mform->addElement('html', "<a href=# name=\"".$connection->id."\">[".get_string("remove", $BLOCKNAME)."]</a></li>");
@@ -212,7 +212,7 @@ class block_semantic_web_edit_form extends block_edit_form {
         		$mform->addElement("html", "<td>");
         			$mform->addElement("html", "<select id=\"id_addCourse\" name=\"addCourse\">");
         				$mform->addElement("html", "<option value=\"0\" selected=\"selected\">".get_string("pleaseselect", $BLOCKNAME)."</option>");        										foreach($allCourses as $course){
-        					if($course->id != 1 && $course->id != $this->page->course->id && !$DB->record_exists("dasis_bundle_connections", array("bundle_id" => $bundle->id, "course_id" => $course->id))){
+        					if($course->id != 1 && $course->id != $this->page->course->id && !$DB->record_exists("block_semantic_web_bundle_connections", array("bundle_id" => $bundle->id, "course_id" => $course->id))){
         						$mform->addElement("html", "<option value=\"{$course->id}\">{$course->fullname}</option>");
         					}
         				}
@@ -262,9 +262,9 @@ class block_semantic_web_edit_form extends block_edit_form {
 		$modules = get_course_mods($this->page->course->id);
         
         // Zu diesem Array werden noch weitere Kurs-Module aus anderen Kursen im Bündel hinzugefügt
-		$bundleconnections = $DB->get_records("dasis_bundle_connections", array("course_id" => $this->page->course->id));
+		$bundleconnections = $DB->get_records("block_semantic_web_bundle_connections", array("course_id" => $this->page->course->id));
 		foreach($bundleconnections as $bundleconnection) {
-			$bccourses = $DB->get_records("dasis_bundle_connections", array("bundle_id" => $bundleconnection->bundle_id));
+			$bccourses = $DB->get_records("block_semantic_web_bundle_connections", array("bundle_id" => $bundleconnection->bundle_id));
     		foreach($bccourses as $bccourse){
     			$newmods = get_course_mods($bccourse->course_id);
     			$modules = array_merge($modules, $newmods);
@@ -284,7 +284,7 @@ class block_semantic_web_edit_form extends block_edit_form {
         	$mform->addElement("html", "<td><select id=\"id_learning_path_bundle_select\">");
         		$mform->addElement("html", "<option value=\"0\">".get_string("pleaseselect", $BLOCKNAME)."</option>");
         		foreach($allBundles as $oneBundle){
-        			if($DB->record_exists("dasis_bundle_connections", array("bundle_id" => $oneBundle->id, "course_id" => $this->page->course->id))){
+        			if($DB->record_exists("block_semantic_web_bundle_connections", array("bundle_id" => $oneBundle->id, "course_id" => $this->page->course->id))){
         				if($lpbid == $oneBundle->id){
         					$mform->addElement("html", "<option selected=\"selected\" value=\"".$oneBundle->id."\">".$oneBundle->name."</option>");
         				}else{
@@ -301,7 +301,7 @@ class block_semantic_web_edit_form extends block_edit_form {
         	$mform->addElement("html", "<td>".get_string("learning_pathname", $BLOCKNAME)."</td>");
         	$mform->addElement("html", "<td><div id=\"id_div_learning_path_select\"><select name=\"learning_path_select\" id=\"id_learning_path_select\">");
         		$mform->addElement("html", "<option value=\"0\">".get_string("pleaseselect", $BLOCKNAME)."</option>");
-        		foreach($DB->get_records("dasis_learning_paths", array("bundle_id" => $lpbid)) as $path){
+        		foreach($DB->get_records("block_semantic_web_learning_paths", array("bundle_id" => $lpbid)) as $path){
         			if($pathId == $path->id){
         				$mform->addElement("html", "<option selected=\"selected\" value=\"".$path->id."\">".$path->name."</option>");
         			}else{
@@ -334,7 +334,7 @@ class block_semantic_web_edit_form extends block_edit_form {
         $mform->addElement("html", "<tr style=\"vertical-align:top;\">");
         	$mform->addElement("html", "<td>".get_string("learning_path", $BLOCKNAME)."</td>");	
         	$mform->addElement("html", "<td>");
-        		$pathArray = unserialize($DB->get_field("dasis_learning_paths", "path", array("id" => $pathId)));
+        		$pathArray = unserialize($DB->get_field("block_semantic_web_learning_paths", "path", array("id" => $pathId)));
         		if(count($pathArray) >1 && is_array($pathArray)){
         			$mform->addElement("html", "<ol id=\"id_path_node_list\">");
         				while($pathNode = current($pathArray)){

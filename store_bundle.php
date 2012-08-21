@@ -20,13 +20,13 @@
 	$connection->course_id = optional_param("courseid");
 	
 	// if bundle doesn't exists, store it
-	if(!$DB->record_exists("dasis_bundles", array("id" => $bundle->id))) {
-		$bundle->id = $DB->insert_record("dasis_bundles", $bundle);
+	if(!$DB->record_exists("block_semantic_web_bundles", array("id" => $bundle->id))) {
+		$bundle->id = $DB->insert_record("block_semantic_web_bundles", $bundle);
 		// first connected course is the current one
 		$connection->bundle_id = $bundle->id;
-		$DB->insert_record("dasis_bundle_connections", $connection);
+		$DB->insert_record("block_semantic_web_bundle_connections", $connection);
 	}else{
-		$DB->update_record("dasis_bundles", $bundle);
+		$DB->update_record("block_semantic_web_bundles", $bundle);
 	}
 	
 	$array = explode("&bundle", $_POST["currenturl"]);

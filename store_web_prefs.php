@@ -34,11 +34,11 @@
 	}	
 	
 	// if connection doesn't exists, store it
-	if(!$DB->record_exists("dasis_semantic_web_prefs", array("block_id" => $prefsItem->block_id))) {
-		$DB->insert_record("dasis_semantic_web_prefs", $prefsItem);
+	if(!$DB->record_exists("block_semantic_web_semantic_web_prefs", array("block_id" => $prefsItem->block_id))) {
+		$DB->insert_record("block_semantic_web_semantic_web_prefs", $prefsItem);
 	}else{
-		$prefsItem->id = $DB->get_field("dasis_semantic_web_prefs", "id", array("block_id" => $prefsItem->block_id));
-		$DB->update_record("dasis_semantic_web_prefs", $prefsItem);
+		$prefsItem->id = $DB->get_field("block_semantic_web_semantic_web_prefs", "id", array("block_id" => $prefsItem->block_id));
+		$DB->update_record("block_semantic_web_semantic_web_prefs", $prefsItem);
 	}
 	
 	redirect($_POST["currenturl"]);

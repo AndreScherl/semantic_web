@@ -29,9 +29,9 @@ $course_id = $DB->get_field("course_modules", "course", array("id" => $id));
 
 // Zuerst werden alle Module der vernetzten Kurse abgefragt
 $modules_sql = "SELECT DISTINCT cm.id as id, bc.course_id AS course, m.name as module, cm.instance as instance FROM {course_modules} cm ".
-					"LEFT JOIN {dasis_bundle_connections} bc ON bc.course_id = cm.course ".
+					"LEFT JOIN {block_semantic_web_bundle_connections} bc ON bc.course_id = cm.course ".
 					"LEFT JOIN {modules} m ON cm.module = m.id ".
-				"WHERE bc.bundle_id = ANY (SELECT bundle_id FROM {dasis_bundle_connections} WHERE course_id = ?) ".
+				"WHERE bc.bundle_id = ANY (SELECT bundle_id FROM {block_semantic_web_bundle_connections} WHERE course_id = ?) ".
 				"ORDER BY bc.course_id, cm.id";
 $modules = $DB->get_records_sql($modules_sql, array($course_id));
 $groups = array();
@@ -44,15 +44,15 @@ foreach($modules as $module){
 $keys = array_keys($modules);
 
 // Nun werden dir Relationen geladen
-$relations_sql = "SELECT DISTINCT r.id as id, r.source as source, r.target as target, r.type as type FROM {dasis_relations} r ".
+$relations_sql = "SELECT DISTINCT r.id as id, r.source as source, r.target as target, r.type as type FROM {block_semantic_web_relations} r ".
 						"LEFT JOIN {course_modules} cm ON cm.id = r.source ".
-					    "LEFT JOIN {dasis_bundle_connections} bc ON bc.course_id = cm.course ".
-					"WHERE bc.bundle_id = ANY (SELECT bundle_id FROM {dasis_bundle_connections} WHERE course_id = ?)";
+					    "LEFT JOIN {block_semantic_web_bundle_connections} bc ON bc.course_id = cm.course ".
+					"WHERE bc.bundle_id = ANY (SELECT bundle_id FROM {block_semantic_web_bundle_connections} WHERE course_id = ?)";
 $relations = $DB->get_records_sql($relations_sql, array($course_id));
 
 // Festlegen der Farben für die Relationstypen
 $colorArray = array("darkred", "red", "orange", "gold", "green", "darkgreen", "blue", "darkblue", "purple");
-$sql = "SELECT DISTINCT type FROM {dasis_relations}";
+$sql = "SELECT DISTINCT type FROM {block_semantic_web_relations}";
 $relationtypes = array_keys($DB->get_records_sql($sql));
 //$colorArray = array_combine($relationtypes, $colorArray); geht nur wenn beide Arrays immer gleich lang sind. also for-loop.
 $colorArray2 = array();

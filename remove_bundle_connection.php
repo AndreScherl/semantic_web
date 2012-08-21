@@ -18,7 +18,7 @@
 	$bcid = optional_param("bcid");
 	
 	if($bcid) {
-		$DB->delete_records("dasis_bundle_connections", array("id" => $bcid));
+		$DB->delete_records("block_semantic_web_bundle_connections", array("id" => $bcid));
 	}
 	redirect($_POST["currenturl"]);
 ?>

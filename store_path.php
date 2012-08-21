@@ -21,14 +21,14 @@
 	$newPathNode = optional_param("new_path_node", -1, PARAM_NUMBER);
 	
 	// if learning path doesn't exists, store it
-	if(!$DB->record_exists("dasis_learning_paths", array("id" => $path->id))) {
+	if(!$DB->record_exists("block_semantic_web_learning_paths", array("id" => $path->id))) {
 		$path->path = serialize(array());
-		$path->id = $DB->insert_record("dasis_learning_paths", $path);
+		$path->id = $DB->insert_record("block_semantic_web_learning_paths", $path);
 	}else{
-		$path->name = $DB->get_field("dasis_learning_paths", "name", array("id" => $path->id));
-		$path->color = $DB->get_field("dasis_learning_paths", "color", array("id" => $path->id));
+		$path->name = $DB->get_field("block_semantic_web_learning_paths", "name", array("id" => $path->id));
+		$path->color = $DB->get_field("block_semantic_web_learning_paths", "color", array("id" => $path->id));
 		
-		if($pathString = $DB->get_field("dasis_learning_paths", "path", array("id" => $path->id))){
+		if($pathString = $DB->get_field("block_semantic_web_learning_paths", "path", array("id" => $path->id))){
 			$pathArray = unserialize($pathString);
 			$pathArray[] = $newPathNode;
 			$path->path = serialize($pathArray);
@@ -36,7 +36,7 @@
 			$pathArray[0] = $newPathNode;
 			$path->path = serialize($pathArray);
 		}
-		$DB->update_record("dasis_learning_paths", $path);
+		$DB->update_record("block_semantic_web_learning_paths", $path);
 	}
 	
 	$array = explode("&pathId", $_POST["currenturl"]);

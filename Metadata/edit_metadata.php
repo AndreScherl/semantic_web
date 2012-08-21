@@ -53,16 +53,16 @@ if($courseview){
 }else{
     $courseid = $DB->get_field("course_modules", "course", array("id" => $id));
     // In der Modul-Ansicht werden die zugehörigen Metadaten geladen.
-    $metadata = $DB->get_record("dasis_modmeta", array("coursemoduleid" => $id));
+    $metadata = $DB->get_record("block_semantic_web_modmeta", array("coursemoduleid" => $id));
 }
 
 // Ein Array mit den Kurs-Modulen als Objekte erstellen
 $modules = get_course_mods($courseid);
 
 // Zu diesem Array werden noch weitere Kurs-Module aus anderen Kursen im Bündel hinzugefügt
-$bundleconnections = $DB->get_records("dasis_bundle_connections", array("course_id" => $courseid));
+$bundleconnections = $DB->get_records("block_semantic_web_bundle_connections", array("course_id" => $courseid));
 foreach($bundleconnections as $bundleconnection) {
-	$bccourses = $DB->get_records("dasis_bundle_connections", array("bundle_id" => $bundleconnection->bundle_id));
+	$bccourses = $DB->get_records("block_semantic_web_bundle_connections", array("bundle_id" => $bundleconnection->bundle_id));
     foreach($bccourses as $bccourse){
     	$newmods = get_course_mods($bccourse->course_id);
     	$modules = array_merge($modules, $newmods);

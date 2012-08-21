@@ -16,7 +16,7 @@
 	$pathId = optional_param("pathId", 0, PARAM_INT);
 	
 	if($pathId > 0){
-		$DB->delete_records("dasis_learning_paths", array("id" => $pathId));
+		$DB->delete_records("block_semantic_web_learning_paths", array("id" => $pathId));
 	}
 	
 ?>

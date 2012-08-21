@@ -16,9 +16,9 @@
 	$bundleId = optional_param("bundleId");
 	
 	// if bundle doesn't exists, store it
-	if($DB->record_exists("dasis_bundles", array("id" => $bundleId))) {
-		$DB->delete_records("dasis_bundles", array("id" => $bundleId));
-		$DB->delete_records("dasis_bundle_connections", array("bundle_id" => $bundleId));
+	if($DB->record_exists("block_semantic_web_bundles", array("id" => $bundleId))) {
+		$DB->delete_records("block_semantic_web_bundles", array("id" => $bundleId));
+		$DB->delete_records("block_semantic_web_bundle_connections", array("bundle_id" => $bundleId));
 	}
 
 	redirect($_POST["currenturl"]);

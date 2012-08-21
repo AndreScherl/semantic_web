@@ -75,25 +75,25 @@ class backup_semantic_web_block_structure_step extends backup_block_structure_st
         $rootcontainer->add_child($last_activities);
  
         // Define sources
-        $bundle->set_source_sql("SELECT * FROM {dasis_bundles} b
-        							LEFT JOIN {dasis_bundle_connections} bc ON b.id = bc.bundle_id
+        $bundle->set_source_sql("SELECT * FROM {block_semantic_web_bundles} b
+        							LEFT JOIN {block_semantic_web_bundle_connections} bc ON b.id = bc.bundle_id
         							WHERE bc.course_id = ?", array(backup::VAR_COURSEID));
         
-        $bundle_connection->set_source_table("dasis_bundle_connections", array("course_id" => backup::VAR_COURSEID));
+        $bundle_connection->set_source_table("block_semantic_web_bundle_connections", array("course_id" => backup::VAR_COURSEID));
         
-        $learning_path->set_source_table("dasis_learning_paths", array("bundle_id" => "../../id"));
+        $learning_path->set_source_table("block_semantic_web_learning_paths", array("bundle_id" => "../../id"));
         
-        $modmeta->set_source_sql("SELECT * FROM {dasis_modmeta} dm 
+        $modmeta->set_source_sql("SELECT * FROM {block_semantic_web_modmeta} dm 
         							LEFT JOIN {course_modules} cm ON dm.coursemoduleid = cm.id 
         							WHERE cm.course = ?", array(backup::VAR_COURSEID));
         
         $relation->set_source_sql("SELECT DISTINCT r.* 
-        							FROM {dasis_relations} r, {course_modules} cm 
+        							FROM {block_semantic_web_relations} r, {course_modules} cm 
         							WHERE ((r.source = cm.id) OR (r.target = cm.id)) AND cm.course = ?", array(backup::VAR_COURSEID));
         
-        $semantic_web_pref->set_source_table("dasis_semantic_web_prefs", array("block_id" => backup::VAR_BLOCKID));
+        $semantic_web_pref->set_source_table("block_semantic_web_semantic_web_prefs", array("block_id" => backup::VAR_BLOCKID));
         
-        $last_activity->set_source_table("dasis_last_activity", array("courseid" => backup::VAR_COURSEID));
+        $last_activity->set_source_table("block_semantic_web_last_activity", array("courseid" => backup::VAR_COURSEID));
  
         // Define id annotations
         $last_activity->annotate_ids("user", "userid");
