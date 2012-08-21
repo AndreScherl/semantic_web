@@ -160,7 +160,7 @@ $editor = has_capability('moodle/course:manageactivities', $context);
 				</td>
 				<td>
 					<?php 
-						if(!$courseview && $relitems = $DB->get_records_sql("SELECT * FROM {$CFG->prefix}dasis_relations WHERE source=$id OR target=$id")){
+						if(!$courseview && $relitems = $DB->get_records_sql("SELECT * FROM {$CFG->prefix}block_semantic_web_relations WHERE source=$id OR target=$id")){
 							echo "<ul id=\"id_relationslist\">";
 							foreach($relitems as $relitem) {
 								echo "<li>";
