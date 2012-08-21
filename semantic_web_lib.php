@@ -156,7 +156,7 @@ function buildChunk($id) {
     } else {
     	$chunk->url = "{$CFG->wwwroot}/blocks/case_repository/start.php?id={$id}&nav=web";	
     }
-    if($DB->record_exists("ilms_history", array("userid" => $USER->id, "coursemoduleid" => $id))){
+    if($DB->record_exists("block_case_repository_history", array("userid" => $USER->id, "coursemoduleid" => $id))){
     	$chunk->label = $DB->get_field($modname, "name", array("id" => $instance))." ✓";
     	if($shortname = $DB->get_field("block_semantic_web_modmeta", "shortname", array("coursemoduleid" => $id))){
     		$chunk->shortname = $shortname." ✓";

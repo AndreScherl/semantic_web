@@ -19,7 +19,7 @@
  global $DB, $CFG, $SESSION, $USER;
  
  // get last Node to be sure its not the next node
- $lastNode = $DB->get_field_sql("SELECT coursemoduleid FROM {ilms_history} WHERE userid={$USER->id} ORDER BY timemodified DESC LIMIT 1,1");
+ $lastNode = $DB->get_field_sql("SELECT coursemoduleid FROM {block_case_repository_history} WHERE userid={$USER->id} ORDER BY timemodified DESC LIMIT 1,1");
  
  $applianceArray = array();
  foreach($SESSION->dasis_iLMS_solutions as $solution){

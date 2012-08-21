@@ -180,7 +180,7 @@ class block_semantic_web extends block_list {
 			// if adapt path is chosen, get last visited node, else the previous node of selected path
 			if($SESSION->dasis_selectedPath === "adapt" && $SESSION->dasis_webprefs[$SESSION->dasis_blockId]->adaption) {
 				if(!isset($SESSION->dasis_historyPosition)) $SESSION->dasis_historyPosition = 0;
-				$sql = "SELECT coursemoduleid FROM {ilms_history} WHERE ";
+				$sql = "SELECT coursemoduleid FROM {block_case_repository_history} WHERE ";
 		    	
 		    	if($SESSION->dasis_selectedBundle > 0){
 			 		$coursesSql = "SELECT DISTINCT course_id FROM {block_semantic_web_bundle_connections} WHERE bundle_id =".$SESSION->dasis_selectedBundle;
