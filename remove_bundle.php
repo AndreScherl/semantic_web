@@ -13,7 +13,7 @@
 
 	require_once("../../config.php");
 	
-	$bundleId = optional_param("bundleId");
+	$bundleId = optional_param("bundleId", 0, PARAM_INT);
 	
 	// if bundle doesn't exists, store it
 	if($DB->record_exists("block_semantic_web_bundles", array("id" => $bundleId))) {

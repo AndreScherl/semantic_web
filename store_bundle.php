@@ -13,9 +13,9 @@
 
 	require_once("../../config.php");
 	
-	$bundle->id = optional_param("bundleId");
-	$bundle->name = optional_param("name_of_bundle");
-	$bundle->description = optional_param("description_of_bundle");
+	$bundle->id = optional_param("bundleId", 0, PARAM_INT);
+	$bundle->name = optional_param("name_of_bundle", "", PARAM_TEXT);
+	$bundle->description = optional_param("description_of_bundle", "", PARAM_TEXT);
 	
 	$connection->course_id = optional_param("courseid");
 	

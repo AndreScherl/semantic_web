@@ -15,7 +15,7 @@
 	
 	global $DB;
 	
-	$bcid = optional_param("bcid");
+	$bcid = optional_param("bcid", 0, PARAM_INT);
 	
 	if($bcid) {
 		$DB->delete_records("block_semantic_web_bundle_connections", array("id" => $bcid));
