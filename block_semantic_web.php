@@ -162,6 +162,7 @@ class block_semantic_web extends block_list {
 			
 			// add option for adaptive path to select element if adaptation is switched on
 			if($SESSION->dasis_webprefs[$SESSION->dasis_blockId]->adaption) {
+				$adaptPathOption = new object();
 				$adaptPathOption->id = "adapt";
 				$adaptPathOption->name = "Adaptiver Pfad";
 				$adaptPathOption->bundle_id = $SESSION->dasis_selectedBundle;
