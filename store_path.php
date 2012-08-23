@@ -14,6 +14,7 @@
 	require_once("../../config.php");
 	require_once("semantic_web_lib.php");
 	
+	$path = new object();
 	$path->id = required_param("pathId", PARAM_NUMBER);
 	$path->name = optional_param("path_name", "noname", PARAM_TEXT);
 	$path->bundle_id = optional_param("lpbid", -1, PARAM_NUMBER);

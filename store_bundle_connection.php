@@ -18,6 +18,7 @@
 	$bundleId = optional_param("bundleId", 0, PARAM_INT);
 	$newCourseId = optional_param("addCourse", 0, PARAM_INT);
 	
+	$connection = new object();
 	if($addBundleId && $courseId) {
 		$connection->bundle_id = $addBundleId;
 		$connection->course_id = $courseId;

@@ -16,6 +16,9 @@
 require_once("../../../config.php");
 require_once("../semantic_web_lib.php");
 
+$target = $SESSION->dasis_activityId;
+$course_id = $DB->get_field("course_modules", "course", array("id" => $target));
+$blockid = $SESSION->dasis_blockId;
 
 //JavaScript einlesen
 $jsmodule = array(
@@ -27,12 +30,8 @@ $PAGE->requires->js_init_call('M.block_semantic_web.init_web_actions', null, fal
 $PAGE->set_context(get_context_instance(CONTEXT_BLOCK, $SESSION->dasis_blockId));
 $PAGE->set_pagelayout("print"); //!(AS) LMUdle Layout without header
 //$PAGE->set_pagelayout("popup");  //! (AS) local Layout without header
+$PAGE->set_url("/blocks/semantic_web/SemanticWeb/semanticweb.php");
 echo $OUTPUT->header();
-
-$target = $SESSION->dasis_activityId;
-$course_id = $DB->get_field("course_modules", "course", array("id" => $target));
-$blockid = $SESSION->dasis_blockId;
-
 
 if(isset($SESSION->dasis_iLMS_solutions)){
 	$solutions = $SESSION->dasis_iLMS_solutions;

@@ -24,27 +24,26 @@ require_once("../semantic_web_lib.php");
 
 $BLOCK_NAME = "block_semantic_web";
 
+// Setzen der übergebenen id des Kurses bzw. Moduls
+$id = required_param('id', PARAM_INT);
+$courseview = optional_param('cv', FALSE, PARAM_BOOL);
+
 //JavaScript einlesen
 $jsmodule = array(
 				'name' => 'block_semantic_web',
 				'fullpath' => '/blocks/semantic_web/semantic_web.js',
-				'requires' => array('node', 'event', 'connection', 'yahoo'));
+				'requires' => array());
 $PAGE->requires->js_init_call('M.block_semantic_web.init_metadata_actions', null, false, $jsmodule);
-
 
 $PAGE->set_pagelayout("print");
 $PAGE->set_context(get_context_instance(CONTEXT_BLOCK, $SESSION->dasis_blockId));
+$PAGE->set_url("/blocks/semantic_web/Metadata/edit_metadata.php", array("id" => $id, "cv" => $courseview));
 
 // Header
 $PAGE->set_title(get_string("edit_metadata", $BLOCK_NAME));
 //$PAGE->requires->css("metadata.css");
 
 echo $OUTPUT->header();
-
-
-// Setzen der übergebenen id des Kurses bzw. Moduls
-$id = required_param('id', PARAM_INT);
-$courseview = optional_param('cv', FALSE, PARAM_BOOL);
 
 // Feststellen, ob wir uns in der Kurs-Ansicht befinden
 if($courseview){
@@ -53,7 +52,11 @@ if($courseview){
 }else{
     $courseid = $DB->get_field("course_modules", "course", array("id" => $id));
     // In der Modul-Ansicht werden die zugehörigen Metadaten geladen.
-    $metadata = $DB->get_record("block_semantic_web_modmeta", array("coursemoduleid" => $id));
+    $metadata = new object();
+    if(!$metadata = $DB->get_record("block_semantic_web_modmeta", array("coursemoduleid" => $id))) {
+    	$metadata = null;
+    }
+    
 }
 
 // Ein Array mit den Kurs-Modulen als Objekte erstellen

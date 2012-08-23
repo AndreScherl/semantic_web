@@ -15,6 +15,7 @@
 	
 	require_once("../../config.php");
 	
+	$prefsItem = new object();
 	$prefsItem->block_id = required_param("bui_editid", PARAM_INT);
 	$prefsItem->depth = $_POST["depth"];
 	if(!isset($_POST["adaption_check"]) || $_POST["adaption_check"] == 0){

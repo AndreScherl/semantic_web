@@ -13,11 +13,13 @@
 
 	require_once("../../config.php");
 	
+	$bundle = new object();
 	$bundle->id = optional_param("bundleId", 0, PARAM_INT);
 	$bundle->name = optional_param("name_of_bundle", "", PARAM_TEXT);
 	$bundle->description = optional_param("description_of_bundle", "", PARAM_TEXT);
 	
-	$connection->course_id = optional_param("courseid");
+	$connection = new object();
+	$connection->course_id = optional_param("courseid", 0, PARAM_INT);
 	
 	// if bundle doesn't exists, store it
 	if(!$DB->record_exists("block_semantic_web_bundles", array("id" => $bundle->id))) {
