@@ -189,7 +189,9 @@ class block_semantic_web extends block_list {
 			 		$coursesSql = "SELECT DISTINCT course_id FROM {block_semantic_web_bundle_connections}";
 			 	}
 			 	
+			 	$bundleCourses = new object();
 		    	if(!$bundleCourses = $DB->get_records_sql($coursesSql)){
+		    		$bundleCourse = new object();
 					$bundleCourse->course_id = $COURSE->id;
 				    $bundleCourses = array("{$COURSE->id}" => $bundleCourse);
 				}
