@@ -204,7 +204,12 @@ class block_semantic_web extends block_list {
 				}
 				$sql .= " ) ";
 				$sql .= "AND userid = {$USER->id} ORDER BY timemodified DESC LIMIT ".($SESSION->dasis_historyPosition+1).",1";
-				$prevNodeLink = "{$CFG->wwwroot}/blocks/case_repository/start.php?id=".$DB->get_field_sql($sql)."&backward=true&nav=path";
+				if($prevnodeid = $DB->get_field_sql($sql)) {
+					$prevNodeLink = "{$CFG->wwwroot}/blocks/case_repository/start.php?id=".$prevnodeid."&backward=true&nav=path";
+				} else {
+					$prevNodeLink = "#";
+				}
+				
 			}
 			$pathSelection .= "<button id=\"id_button_lastNode\" name=\"lastNode\" value=\"$prevNodeLink\">".get_string("back", $BLOCKNAME)."</button>";
 			$pathSelection .= "        <button id=\"id_button_nextNode\" name=\"nextNode\" value=\"$nextNodeLink\">".get_string("next", $BLOCKNAME)."</button>";
