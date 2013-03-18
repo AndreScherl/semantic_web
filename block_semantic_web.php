@@ -41,7 +41,7 @@ class block_semantic_web extends block_list {
 		
 		// set global variables of DASIS in cookie
 		$SESSION->dasis_blockId = $this->instance->id;
-		$SESSION->dasis_webprefs[$SESSION->dasis_blockId] = $DB->get_record("block_semantic_web_semantic_web_prefs", array("block_id" => $this->instance->id));
+		$SESSION->dasis_webprefs[$SESSION->dasis_blockId] = $DB->get_record("dasis_semantic_web_prefs", array("block_id" => $this->instance->id));
 		$SESSION->dasis_courseHasBundle = is_course_contained_by_any_bundle($COURSE->id);
 		if(!property_exists($SESSION, "dasis_selectedBundle")) {
 			$SESSION->dasis_selectedBundle = null;
@@ -67,13 +67,13 @@ class block_semantic_web extends block_list {
 			$SESSION->dasis_activityId = $id;
 		}else{
 			$SESSION->courseview = 1;
-			if(!$SESSION->dasis_activityId = $DB->get_field("block_semantic_web_last_activity", "course_module", array("userid" => $USER->id, "courseid" => $COURSE->id))){
+			if(!$SESSION->dasis_activityId = $DB->get_field("dasis_last_activity", "course_module", array("userid" => $USER->id, "courseid" => $COURSE->id))){
 		$SESSION->dasis_activityId = $DB->get_field_sql("SELECT id FROM {course_modules} WHERE course = $id ORDER BY added LIMIT 0,1");
 			}
 		}			
 		
 		// set flag, if current activity is contained by relations semantic web
-		if(!$SESSION->dasis_partOfWeb = $DB->record_exists_select("block_semantic_web_relations", "source = {$SESSION->dasis_activityId} OR target = {$SESSION->dasis_activityId}")) {
+		if(!$SESSION->dasis_partOfWeb = $DB->record_exists_select("dasis_relations", "source = {$SESSION->dasis_activityId} OR target = {$SESSION->dasis_activityId}")) {
 			$SESSION->dasis_partOfWeb = 0;
 		}
 		
@@ -84,7 +84,7 @@ class block_semantic_web extends block_list {
 			$prefs->adaption = 0;
 			$prefs->case_collection = 0;
 			$prefs->web_animation = 1;
-			$DB->insert_record("block_semantic_web_semantic_web_prefs", $prefs);
+			$DB->insert_record("dasis_semantic_web_prefs", $prefs);
 		}
 		
 		// Wird für das Listen-Layout des Blocks benötigt
@@ -105,9 +105,9 @@ class block_semantic_web extends block_list {
 		//if(is_course_contained_by_any_bundle($COURSE->id)) {
 			$bundleSelectElement = "<select id=\"id_bundle_selection\" name=\"dasis_selectedBundle\">";
 			$bundleSelectElement .= "<option value=\"0\">".get_string("choose_bundle", $BLOCKNAME)."</option>";
-			$bundlesOfCourse = $DB->get_records("block_semantic_web_bundle_connections", array("course_id" => $COURSE->id));
+			$bundlesOfCourse = $DB->get_records("dasis_bundle_connections", array("course_id" => $COURSE->id));
 			foreach($bundlesOfCourse as $bundleOfCourse){
-				$bundle = $DB->get_record("block_semantic_web_bundles", array("id" => $bundleOfCourse->bundle_id));
+				$bundle = $DB->get_record("dasis_bundles", array("id" => $bundleOfCourse->bundle_id));
 				if($SESSION->dasis_selectedBundle==$bundle->id){
 					$bundleSelectElement .= "<option selected=\"selected\" value=\"".$bundle->id."\">".$bundle->name."</option>";
 				}else{
@@ -124,7 +124,7 @@ class block_semantic_web extends block_list {
 		// if a bundle is chosen select the path to walk through the web
 		if($SESSION->dasis_bundleHasPath or $SESSION->dasis_webprefs[$SESSION->dasis_blockId]->adaption){
 			if($SESSION->dasis_selectedPath !== "adapt" && $SESSION->dasis_selectedPath > 0){
-				$currentLearningPathArray = unserialize($DB->get_field("block_semantic_web_learning_paths", "path", array("id"=>$SESSION->dasis_selectedPath)));
+				$currentLearningPathArray = unserialize($DB->get_field("dasis_learning_paths", "path", array("id"=>$SESSION->dasis_selectedPath)));
 				
 				// support groups in learning paths
 				foreach($currentLearningPathArray as $node) {
@@ -158,7 +158,7 @@ class block_semantic_web extends block_list {
 			
 			$pathSelection .= "<select id=\"id_path_select\" name=\"dasis_selectedPath\">";
 			$pathSelection .= "<option value=\"0\">".get_string("select_path", $BLOCKNAME)."</option>";
-			$paths = $DB->get_records("block_semantic_web_learning_paths", array("bundle_id" => $SESSION->dasis_selectedBundle));
+			$paths = $DB->get_records("dasis_learning_paths", array("bundle_id" => $SESSION->dasis_selectedBundle));
 			
 			// add option for adaptive path to select element if adaptation is switched on
 			if($SESSION->dasis_webprefs[$SESSION->dasis_blockId]->adaption) {
@@ -181,12 +181,12 @@ class block_semantic_web extends block_list {
 			// if adapt path is chosen, get last visited node, else the previous node of selected path
 			if($SESSION->dasis_selectedPath === "adapt" && $SESSION->dasis_webprefs[$SESSION->dasis_blockId]->adaption) {
 				if(!isset($SESSION->dasis_historyPosition)) $SESSION->dasis_historyPosition = 0;
-				$sql = "SELECT coursemoduleid FROM {block_case_repository_history} WHERE ";
+				$sql = "SELECT coursemoduleid FROM {ilms_history} WHERE ";
 		    	
 		    	if($SESSION->dasis_selectedBundle > 0){
-			 		$coursesSql = "SELECT DISTINCT course_id FROM {block_semantic_web_bundle_connections} WHERE bundle_id =".$SESSION->dasis_selectedBundle;
+			 		$coursesSql = "SELECT DISTINCT course_id FROM {dasis_bundle_connections} WHERE bundle_id =".$SESSION->dasis_selectedBundle;
 			 	}else{
-			 		$coursesSql = "SELECT DISTINCT course_id FROM {block_semantic_web_bundle_connections}";
+			 		$coursesSql = "SELECT DISTINCT course_id FROM {dasis_bundle_connections}";
 			 	}
 			 	
 			 	$bundleCourses = new object();
@@ -280,18 +280,18 @@ class block_semantic_web extends block_list {
     function setLastActivity() {
     	global $USER, $PAGE, $DB;
     	if($PAGE->cm) {
-    		if($DB->record_exists_select("block_semantic_web_relations", "source = ".$PAGE->cm->id." OR target = ".$PAGE->cm->id)) {
+    		if($DB->record_exists_select("dasis_relations", "source = ".$PAGE->cm->id." OR target = ".$PAGE->cm->id)) {
     			$lastActivity = new object();
     			$lastActivity->userid = $USER->id;
     			$lastActivity->courseid = $PAGE->cm->course;
     			$lastActivity->course_module = $PAGE->cm->id;
     			
-    			if($rec = $DB->get_record("block_semantic_web_last_activity", array("userid" => $lastActivity->userid, "courseid" => $lastActivity->courseid))) {
+    			if($rec = $DB->get_record("dasis_last_activity", array("userid" => $lastActivity->userid, "courseid" => $lastActivity->courseid))) {
     				$lastActivity->id = $rec->id;
     				$lastActivity->last_access = date("Y-m-d H:i:s", time());
-    				$DB->update_record("block_semantic_web_last_activity", $lastActivity);
+    				$DB->update_record("dasis_last_activity", $lastActivity);
     			}else{
-    				$DB->insert_record("block_semantic_web_last_activity", $lastActivity);
+    				$DB->insert_record("dasis_last_activity", $lastActivity);
     			}
     		}
     	}
@@ -305,25 +305,25 @@ class block_semantic_web extends block_list {
     	mtrace("\n----------------------- cron job - ".get_string('blockname', 'block_semantic_web')." -------------------------\n");
     	
     	// check relations
-    	$relations = $DB->get_records("block_semantic_web_relations");
+    	$relations = $DB->get_records("dasis_relations");
     	foreach($relations as $relation) {
     		if(!$DB->record_exists("course_modules", array("id" => $relation->target)) || !$DB->record_exists("course_modules", array("id" => $relation->source))) {
     			mtrace("removed activity {$relation->target} or {$relation->source} from course modules, so remove relation '".get_string($relation->type, 'block_case_repository')."' of activities too.");
-    			if($DB->delete_records("block_semantic_web_relations", array("id" => $relation->id))) mtrace("removed.");
+    			if($DB->delete_records("dasis_relations", array("id" => $relation->id))) mtrace("removed.");
     		}
     	}
     	
     	// check metadata
-    	$metadata = $DB->get_records("block_semantic_web_modmeta");
+    	$metadata = $DB->get_records("dasis_modmeta");
     	foreach($metadata as $data) {
     		if(!$DB->record_exists("course_modules", array("id" => $data->coursemoduleid))) {
     			mtrace("remove metadata of removed activity ".$data->coursemoduleid);
-    			if($DB->delete_records("block_semantic_web_modmeta", array("id" => $data->id))) mtrace("removed.");
+    			if($DB->delete_records("dasis_modmeta", array("id" => $data->id))) mtrace("removed.");
     		}
     	}
     	
     	// check learning paths
-    	$learningPaths = $DB->get_records("block_semantic_web_learning_paths");
+    	$learningPaths = $DB->get_records("dasis_learning_paths");
     	foreach($learningPaths as $learningPath) {
     		$pathArray = unserialize($learningPath->path);
     		foreach($pathArray as $pathItem) {
@@ -335,15 +335,15 @@ class block_semantic_web extends block_list {
     		}
     		$learningPathObject->id = $learningPath->id;
     		$learningPathObject->path = serialize($pathArray);
-    		$DB->update_record("block_semantic_web_learning_paths", $learningPathObject);
+    		$DB->update_record("dasis_learning_paths", $learningPathObject);
     	}
     	
     	// check web prefs
-    	$webprefs = $DB->get_records("block_semantic_web_semantic_web_prefs");
+    	$webprefs = $DB->get_records("dasis_semantic_web_prefs");
     	foreach($webprefs as $webpref) {
     		if(!$DB->record_exists("block_instances", array("id" => $webpref->block_id))) {
     			mtrace("remove webprefs of removed block ".$webpref->block_id);
-    			if($DB->delete_records("block_semantic_web_semantic_web_prefs", array("id" => $webpref->id))) mtrace("removed.");
+    			if($DB->delete_records("dasis_semantic_web_prefs", array("id" => $webpref->id))) mtrace("removed.");
     		}
     	}
     	

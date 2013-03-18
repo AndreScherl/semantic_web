@@ -1,8 +1,8 @@
 <?php
 
-$plugin->version = 2012082100;
+$plugin->version = 2013031700;
 $plugin->cron = 1;
 $plugin->requires = 2010112400; // Moodle 2.0
 $plugin->component = 'block_semantic_web';
-$plugin->release = '1.1 (Build: 2012082100)';
-$plugin->dependencies = array('block_case_repository' => 2012082100, 'block_user_preferences' => 2012082100);
+$plugin->release = '1.2 (Build: 2013031700)';
+$plugin->dependencies = array('block_case_repository' => 2013031700, 'block_user_preferences' => 2013031700);

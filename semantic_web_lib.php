@@ -88,11 +88,11 @@ function getSourcesFromTarget($target){
 	$sources = array();
     if($SESSION->dasis_selectedBundle > 0){
     	$sqlquery = "SELECT DISTINCT r.id, r.source, r.target, cm.visible
-    				FROM {block_semantic_web_relations} r, {course_modules} cm, {block_semantic_web_bundle_connections} bc
+    				FROM {dasis_relations} r, {course_modules} cm, {dasis_bundle_connections} bc
     				WHERE $target=r.target AND r.source=cm.id AND cm.course=bc.course_id AND bc.bundle_id=".$SESSION->dasis_selectedBundle;
     }else{
     	$sqlquery = "SELECT DISTINCT r.id, r.source, r.target, cm.visible
-    				FROM {block_semantic_web_relations} r, {course_modules} cm, {block_semantic_web_bundle_connections} bc
+    				FROM {dasis_relations} r, {course_modules} cm, {dasis_bundle_connections} bc
     				WHERE $target=r.target AND r.source=cm.id AND cm.course=bc.course_id";
     }
     $relations = $DB->get_records_sql($sqlquery);
@@ -115,11 +115,11 @@ function getTargetsFromSource($source){
 	$targets = array();
     if($SESSION->dasis_selectedBundle > 0){
     	$sqlquery = "SELECT DISTINCT r.id, r.source, r.target, cm.visible
-    				FROM {block_semantic_web_relations} r, {course_modules} cm, {block_semantic_web_bundle_connections} bc
+    				FROM {dasis_relations} r, {course_modules} cm, {dasis_bundle_connections} bc
     				WHERE $source=r.source AND r.target=cm.id AND cm.course=bc.course_id AND bc.bundle_id=".$SESSION->dasis_selectedBundle;
     }else{
     	$sqlquery = "SELECT DISTINCT r.id, r.source, r.target, cm.visible
-    				FROM {block_semantic_web_relations} r, {course_modules} cm, {block_semantic_web_bundle_connections} bc
+    				FROM {dasis_relations} r, {course_modules} cm, {dasis_bundle_connections} bc
     				WHERE $source=r.source AND r.target=cm.id AND cm.course=bc.course_id";
     }
     $relations = $DB->get_records_sql($sqlquery);
@@ -156,16 +156,16 @@ function buildChunk($id) {
     } else {
     	$chunk->url = "{$CFG->wwwroot}/blocks/case_repository/start.php?id={$id}&nav=web";	
     }
-    if($DB->record_exists("block_case_repository_history", array("userid" => $USER->id, "coursemoduleid" => $id))){
+    if($DB->record_exists("ilms_history", array("userid" => $USER->id, "coursemoduleid" => $id))){
     	$chunk->label = $DB->get_field($modname, "name", array("id" => $instance))." ✓";
-    	if($shortname = $DB->get_field("block_semantic_web_modmeta", "shortname", array("coursemoduleid" => $id))){
+    	if($shortname = $DB->get_field("dasis_modmeta", "shortname", array("coursemoduleid" => $id))){
     		$chunk->shortname = $shortname." ✓";
     	} else {
     		$chunk->shortname = null;
     	}
     }else{
     	$chunk->label = $DB->get_field($modname, "name", array("id" => $instance)); // the name of the chunk
-    	$chunk->shortname = $DB->get_field("block_semantic_web_modmeta", "shortname", array("coursemoduleid" => $id)); //short name of the instance
+    	$chunk->shortname = $DB->get_field("dasis_modmeta", "shortname", array("coursemoduleid" => $id)); //short name of the instance
     }
     
     $chunk->shape = "circle";
@@ -190,7 +190,7 @@ function buildOverviewNode($id) {
     $module = $DB->get_field("course_modules", "module", array("id" => $id)); // module id
     $instance = $DB->get_field("course_modules", "instance", array("id" => $id)); // instance id module table
     $modname = $DB->get_field("modules", "name", array("id" => $module)); // the name of the module
-    $node->shortname = $DB->get_field("block_semantic_web_modmeta", "shortname", array("coursemoduleid" => $id)); //short name of the instance
+    $node->shortname = $DB->get_field("dasis_modmeta", "shortname", array("coursemoduleid" => $id)); //short name of the instance
     $node->label = $DB->get_field($modname, "name", array("id" => $instance)); // the name of the chunk
     
     return $node;
@@ -241,7 +241,7 @@ function encode_path_string($pathArray){
  function get_relation_color($ida, $idb){
  	global $DB;
  	$color = "none";
- 	$sql = "SELECT * FROM {block_semantic_web_learning_paths}
+ 	$sql = "SELECT * FROM {dasis_learning_paths}
  			WHERE path LIKE '%$ida%$idb%' OR path LIKE '%$idb%$ida%'";
  	$paths = $DB->get_records_sql($sql);
  	foreach($paths as $path){
@@ -358,7 +358,7 @@ function encode_path_string($pathArray){
   */ 
  function is_course_contained_by_any_bundle($courseid) {
  	global $DB;
- 	if($DB->get_record_sql("SELECT COUNT(bundle_id) AS count FROM {block_semantic_web_bundle_connections} WHERE course_id = $courseid")->count){
+ 	if($DB->get_record_sql("SELECT COUNT(bundle_id) AS count FROM {dasis_bundle_connections} WHERE course_id = $courseid")->count){
  		$result = 1;
  	}else{
  		$result = 0;
@@ -374,7 +374,7 @@ function encode_path_string($pathArray){
   */ 
  function exists_any_path_for_bundle($bundleid) {
  	global $DB;
- 	if($DB->get_record_sql("SELECT COUNT(id) AS count FROM {block_semantic_web_learning_paths} WHERE bundle_id = $bundleid")->count){
+ 	if($DB->get_record_sql("SELECT COUNT(id) AS count FROM {dasis_learning_paths} WHERE bundle_id = $bundleid")->count){
  		$result = 1;
  	}else{
  		$result = 0;
