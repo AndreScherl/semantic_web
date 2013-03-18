@@ -137,9 +137,9 @@ if($SESSION->dasis_webprefs[$SESSION->dasis_blockId]->adaption && isset($solutio
 	<div id="semanticweb"></div>
 	<div id="caption">
 		<?php
-			$sql = "SELECT p.id as id, p.name as title, p.color as color, b.name as bundle, b.description as description FROM {block_semantic_web_learning_paths} p ".
-					"LEFT JOIN {block_semantic_web_bundle_connections} bc ON p.bundle_id = bc.bundle_id ".
-					"LEFT JOIN {block_semantic_web_bundles} b ON p.bundle_id = b.id ".
+			$sql = "SELECT p.id as id, p.name as title, p.color as color, b.name as bundle, b.description as description FROM {dasis_learning_paths} p ".
+					"LEFT JOIN {dasis_bundle_connections} bc ON p.bundle_id = bc.bundle_id ".
+					"LEFT JOIN {dasis_bundles} b ON p.bundle_id = b.id ".
 					"WHERE bc.course_id = $course_id";
 			$pathInfo = $DB->get_records_sql($sql);
 			echo "<p><a id=\"reload_web\" href=\"{$CFG->wwwroot}/blocks/semantic_web/SemanticWeb/semanticweb.php\">".get_string('reloadweb', 'block_semantic_web')."</a></p>";

@@ -47,10 +47,10 @@
 	$data->catalog = optional_param("catalog", "NULL", PARAM_TEXT);
 	
 	// Überprüfen, ob die Lernaktivität schon vorhanden ist. Ja=>aktualisieren, Nein=>einfügen
-	if($DB->record_exists("block_semantic_web_modmeta", array("coursemoduleid" => $_POST["coursemoduleid"]))) {
-		$DB->update_record("block_semantic_web_modmeta", $data);
+	if($DB->record_exists("dasis_modmeta", array("coursemoduleid" => $_POST["coursemoduleid"]))) {
+		$DB->update_record("dasis_modmeta", $data);
 	}else{
-		$DB->insert_record("block_semantic_web_modmeta", $data, $returnid=true, $primarykey='id');
+		$DB->insert_record("dasis_modmeta", $data, $returnid=true, $primarykey='id');
 	}
 	
 	// Der Titel der Lernaktivität wird in der entsprechenden Tabelle gespeichert

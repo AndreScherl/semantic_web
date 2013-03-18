@@ -50,9 +50,9 @@ class restore_semantic_web_block_task extends restore_block_task {
     static public function define_decode_contents() {
     	$contents = array();
     	
-    	$contents[] = new restore_decode_content("block_semantic_web_bundles", array("name", "description"), "bundle");
-    	$contents[] = new restore_decode_content("block_semantic_web_learning_paths", array("name"), "learning_path");
-    	$contents[] = new restore_decode_content("block_semantic_web_modmeta", array("shortname", "keywords", "learning_tasks", "taxonomy", "catalog"), "modmeta");
+    	$contents[] = new restore_decode_content("dasis_bundles", array("name", "description"), "bundle");
+    	$contents[] = new restore_decode_content("dasis_learning_paths", array("name"), "learning_path");
+    	$contents[] = new restore_decode_content("dasis_modmeta", array("shortname", "keywords", "learning_tasks", "taxonomy", "catalog"), "modmeta");
         
         return $contents;
     }

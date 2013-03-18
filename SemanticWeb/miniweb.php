@@ -23,7 +23,7 @@ $target = $SESSION->dasis_activityId;
 $RANGE = $SESSION->userDepth;
 	
 // Wenn die akteulle Lernaktivität nicht im Netz enthalten ist, soll die Ausführung abgebrochen werden und es wird "Kein Netz für die aktuelle Station" angezeigt.
-if(!$DB->record_exists_select("block_semantic_web_relations", "source = $target OR target = $target")) {
+if(!$DB->record_exists_select("dasis_relations", "source = $target OR target = $target")) {
 	p(get_string("noweb", "block_semantic_web"));
 } else {
 

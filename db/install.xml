@@ -4,7 +4,7 @@
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="block_semantic_web_bundles" COMMENT="Bundles of Courses." NEXT="block_semantic_web_bundle_connections">
+    <TABLE NAME="dasis_bundles" COMMENT="Bundles of Courses." NEXT="dasis_bundle_connections">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="name"/>
         <FIELD NAME="name" TYPE="text" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="description"/>
@@ -14,7 +14,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="block_semantic_web_bundle_connections" COMMENT="connections of courses and bundles." PREVIOUS="block_semantic_web_bundles" NEXT="block_semantic_web_last_activity">
+    <TABLE NAME="dasis_bundle_connections" COMMENT="connections of courses and bundles." PREVIOUS="dasis_bundles" NEXT="dasis_last_activity">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="bundle_id"/>
         <FIELD NAME="bundle_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="course_id"/>
@@ -22,11 +22,11 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="bundle_id"/>
-        <KEY NAME="bundle_id" TYPE="foreign" FIELDS="bundle_id" REFTABLE="block_semantic_web_bundles" REFFIELDS="id" COMMENT="id of the bundle the course is connected with" PREVIOUS="primary" NEXT="course_id"/>
+        <KEY NAME="bundle_id" TYPE="foreign" FIELDS="bundle_id" REFTABLE="dasis_bundles" REFFIELDS="id" COMMENT="id of the bundle the course is connected with" PREVIOUS="primary" NEXT="course_id"/>
         <KEY NAME="course_id" TYPE="foreign" FIELDS="course_id" REFTABLE="course" REFFIELDS="id" COMMENT="the course connected with bundle" PREVIOUS="bundle_id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="block_semantic_web_last_activity" COMMENT="the last activity visited by user" PREVIOUS="block_semantic_web_bundle_connections" NEXT="block_semantic_web_learning_paths">
+    <TABLE NAME="dasis_last_activity" COMMENT="the last activity visited by user" PREVIOUS="dasis_bundle_connections" NEXT="dasis_learning_paths">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="userid"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="20" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="courseid"/>
@@ -41,7 +41,7 @@
         <KEY NAME="course_module" TYPE="foreign" FIELDS="course_module" REFTABLE="course_modules" REFFIELDS="id" COMMENT="course module of the users last activity" PREVIOUS="courseid"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="block_semantic_web_learning_paths" COMMENT="learning paths" PREVIOUS="block_semantic_web_last_activity" NEXT="block_semantic_web_modmeta">
+    <TABLE NAME="dasis_learning_paths" COMMENT="learning paths" PREVIOUS="dasis_last_activity" NEXT="dasis_modmeta">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="name"/>
         <FIELD NAME="name" TYPE="text" LENGTH="small" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="path"/>
@@ -53,7 +53,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="block_semantic_web_modmeta" COMMENT="metadata of activities" PREVIOUS="block_semantic_web_learning_paths" NEXT="block_semantic_web_relations">
+    <TABLE NAME="dasis_modmeta" COMMENT="metadata of activities" PREVIOUS="dasis_learning_paths" NEXT="dasis_relations">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="shortname"/>
         <FIELD NAME="shortname" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="id" NEXT="linguistic_requirement"/>
@@ -77,7 +77,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="block_semantic_web_relations" COMMENT="relations between activities" PREVIOUS="block_semantic_web_modmeta" NEXT="block_semantic_web_semantic_web_prefs">
+    <TABLE NAME="dasis_relations" COMMENT="relations between activities" PREVIOUS="dasis_modmeta" NEXT="dasis_semantic_web_prefs">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="source"/>
         <FIELD NAME="source" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" PREVIOUS="id" NEXT="target"/>
@@ -93,7 +93,7 @@
         <INDEX NAME="ilmsrela_tar_ix" UNIQUE="false" FIELDS="target" PREVIOUS="ilmsrela_sou_ix"/>
       </INDEXES>
     </TABLE>
-    <TABLE NAME="block_semantic_web_semantic_web_prefs" COMMENT="prefs of semantic web" PREVIOUS="block_semantic_web_relations">
+    <TABLE NAME="dasis_semantic_web_prefs" COMMENT="prefs of semantic web" PREVIOUS="dasis_relations">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="block_id"/>
         <FIELD NAME="block_id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="false" SEQUENCE="false" PREVIOUS="id" NEXT="depth"/>

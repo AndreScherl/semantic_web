@@ -19,7 +19,7 @@
 	$relid = optional_param('relid', 0, PARAM_INT);
 
 	if($relid) {
-		$DB->delete_records("block_semantic_web_relations", array("id" => $relid));
+		$DB->delete_records("dasis_relations", array("id" => $relid));
 	}
 	
 	redirect("edit_metadata.php?id=$id");

@@ -21,12 +21,12 @@
 	$nodeToDel = $_POST["ntd"];
 	
 	if($pathId > 0){
-		$path = $DB->get_record("block_semantic_web_learning_paths", array("id" => $pathId));
+		$path = $DB->get_record("dasis_learning_paths", array("id" => $pathId));
 		$pathArray = unserialize($path->path);
 		unset($pathArray[$nodeToDel]);
 		$path->path = serialize($pathArray);
 		
-		$DB->update_record("block_semantic_web_learning_paths", $path);
+		$DB->update_record("dasis_learning_paths", $path);
 	}
 	
 ?>

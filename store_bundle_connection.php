@@ -22,13 +22,13 @@
 	if($addBundleId && $courseId) {
 		$connection->bundle_id = $addBundleId;
 		$connection->course_id = $courseId;
-		$DB->insert_record("block_semantic_web_bundle_connections", $connection);
+		$DB->insert_record("dasis_bundle_connections", $connection);
 	}
 	
 	if($bundleId && $newCourseId){
 		$connection->bundle_id = $bundleId;
 		$connection->course_id = $newCourseId;
-		$DB->insert_record("block_semantic_web_bundle_connections", $connection);
+		$DB->insert_record("dasis_bundle_connections", $connection);
 	}
 	
 	redirect($_POST["currenturl"]);

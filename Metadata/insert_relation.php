@@ -29,8 +29,8 @@
 		$data->source = $sid;
 		$data->target = $tid;
 		$data->type = $rel;
-		if(!$DB->record_exists("block_semantic_web_relations", array("source" => $sid, "target" => $tid, "type" => $rel))){
-			$DB->insert_record("block_semantic_web_relations", $data);
+		if(!$DB->record_exists("dasis_relations", array("source" => $sid, "target" => $tid, "type" => $rel))){
+			$DB->insert_record("dasis_relations", $data);
 		}
 	}
 	
