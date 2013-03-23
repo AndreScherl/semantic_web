@@ -8,6 +8,19 @@
 	 */
 
 	$capabilities = array(
+		'block/semantic_web:addinstance' => array(
+
+            'captype' => 'read',
+            'contextlevel' => CONTEXT_SYSTEM,
+            'legacy' => array(
+                'guest' => CAP_PREVENT,
+                'student' => CAP_PREVENT,
+                'teacher' => CAP_PREVENT,
+                'editingteacher' => CAP_PREVENT,
+                'admin' => CAP_ALLOW
+            )
+        ),
+		
 		'block/semantic_web:editmetadata' => array(
 			'captype'		=> 'write',
 			'contextlevel'	=> CONTEXT_MODULE,

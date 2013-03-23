@@ -68,9 +68,9 @@ class block_semantic_web extends block_list {
 		}else{
 			$SESSION->courseview = 1;
 			if(!$SESSION->dasis_activityId = $DB->get_field("dasis_last_activity", "course_module", array("userid" => $USER->id, "courseid" => $COURSE->id))){
-		$SESSION->dasis_activityId = $DB->get_field_sql("SELECT id FROM {course_modules} WHERE course = $id ORDER BY added LIMIT 0,1");
+				$SESSION->dasis_activityId = $DB->get_field_sql("SELECT id FROM {course_modules} WHERE course = $id ORDER BY added LIMIT 0,1");
 			}
-		}			
+		}
 		
 		// set flag, if current activity is contained by relations semantic web
 		if(!$SESSION->dasis_partOfWeb = $DB->record_exists_select("dasis_relations", "source = {$SESSION->dasis_activityId} OR target = {$SESSION->dasis_activityId}")) {
@@ -250,7 +250,7 @@ class block_semantic_web extends block_list {
 		$jsmodule = array(
      	'name' => 'block_semantic_web',
      	'fullpath' => '/blocks/semantic_web/semantic_web.js',
-     	'requires' => array('node', 'event', 'dd-drag'));
+     	'requires' => array('node', 'event', 'dd-drag', 'io'));
 		$PAGE->requires->js_init_call('M.block_semantic_web.init_popup_actions', null, false, $jsmodule);
 		//$PAGE->requires->js_init_call('M.block_semantic_web.init_adaption_actions', null, false, $jsmodule);
 		
