@@ -68,7 +68,7 @@ class block_semantic_web extends block_list {
 		}else{
 			$SESSION->courseview = 1;
 			if(!$SESSION->dasis_activityId = $DB->get_field("dasis_last_activity", "course_module", array("userid" => $USER->id, "courseid" => $COURSE->id))){
-				$SESSION->dasis_activityId = $DB->get_field_sql("SELECT id FROM {course_modules} WHERE course = $id ORDER BY added LIMIT 0,1");
+				$SESSION->dasis_activityId = $DB->get_field_sql("SELECT id FROM {course_modules} WHERE course = {$COURSE->id} ORDER BY added LIMIT 0,1");
 			}
 		}
 		
