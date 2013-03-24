@@ -257,9 +257,9 @@ class block_semantic_web extends block_list {
 		// load js of adaption module "case repository" if adaptation is turned on
 		if($SESSION->dasis_webprefs[$SESSION->dasis_blockId]->adaption){
 			$js_case_repository = array(
-     			'name' => 'block_cae_repository',
+     			'name' => 'block_case_repository',
      			'fullpath' => '/blocks/case_repository/case_repository.js',
-     			'requires' => array('array-extras'));
+     			'requires' => array('array-extras', 'io'));
         	$PAGE->requires->js_init_call('M.block_case_repository.init', null, false, $js_case_repository);
 		}
 		
