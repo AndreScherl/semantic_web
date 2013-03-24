@@ -80,7 +80,13 @@ foreach($modules as $module) {
 }
 
 // Feststellen, ob man die Rechte besitzt das Kursmodul zu verändern (wichtig, damit nicht jeder die Titel ändern kann)
-$context = get_context_instance(CONTEXT_COURSE, $mods[$id]->course);	
+//$context = get_context_instance(CONTEXT_COURSE, $mods[$id]->course);
+if($courseview){
+	$context = context_course::instance($courseid);
+} else {
+	$context = context_course::instance($mods[$id]->course);
+}
+
 $editor = has_capability('moodle/course:manageactivities', $context);
 	
 	// Die CSS-Datei hier einzulesen ist sehr unsauber. Das kann mit dem Corporate Design dann sauberer gemacht werden ?>
