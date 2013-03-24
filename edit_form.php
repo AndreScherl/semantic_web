@@ -23,7 +23,7 @@ class block_semantic_web_edit_form extends block_edit_form {
 		$jsmodule = array(
      	'name' => 'block_semantic_web',
      	'fullpath' => '/blocks/semantic_web/semantic_web.js',
-     	'requires' => array('node', 'event'));
+     	'requires' => array('node', 'event', 'io'));
 		$PAGE->requires->js_init_call('M.block_semantic_web.init_configblock_actions', null, false, $jsmodule);
 
 				
