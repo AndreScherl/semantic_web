@@ -55,13 +55,13 @@ function xmldb_block_semantic_web_upgrade($oldversion) {
     }
     
     if ($oldversion < 2013031700) {
-    	$dbman->rename_table("dasis_bundle_connections", "dasis_bundle_connections", $continue=true, $feedback=true);
-    	$dbman->rename_table("dasis_bundles", "dasis_bundles", $continue=true, $feedback=true);
-    	$dbman->rename_table("dasis_last_activity", "dasis_last_activity", $continue=true, $feedback=true);
-    	$dbman->rename_table("dasis_learning_paths", "dasis_learning_paths", $continue=true, $feedback=true);
-    	$dbman->rename_table("dasis_modmeta", "dasis_modmeta", $continue=true, $feedback=true);
-    	$dbman->rename_table("dasis_relations", "dasis_relations", $continue=true, $feedback=true);
-    	$dbman->rename_table("dasis_semantic_web_prefs", "dasis_semantic_web_prefs", $continue=true, $feedback=true);
+    	$dbman->rename_table("block_semantic_web_bundle_connections", "dasis_bundle_connections", $continue=true, $feedback=true);
+    	$dbman->rename_table("block_semantic_web_bundles", "dasis_bundles", $continue=true, $feedback=true);
+    	$dbman->rename_table("block_semantic_web_last_activity", "dasis_last_activity", $continue=true, $feedback=true);
+    	$dbman->rename_table("block_semantic_web_learning_paths", "dasis_learning_paths", $continue=true, $feedback=true);
+    	$dbman->rename_table("block_semantic_web_modmeta", "dasis_modmeta", $continue=true, $feedback=true);
+    	$dbman->rename_table("block_semantic_web_relations", "dasis_relations", $continue=true, $feedback=true);
+    	$dbman->rename_table("block_semantic_web_semantic_web_prefs", "dasis_semantic_web_prefs", $continue=true, $feedback=true);
     	
     	upgrade_block_savepoint(true, 2013031700, 'semantic_web');
     }

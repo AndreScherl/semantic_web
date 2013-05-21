@@ -1,6 +1,6 @@
 <?php
 
-$plugin->version = 2013032300;
+$plugin->version = 2013052100;
 $plugin->cron = 1;
 $plugin->requires = 2010112400; // Moodle 2.0
 $plugin->component = 'block_semantic_web';
