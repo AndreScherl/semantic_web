@@ -357,7 +357,11 @@
 		
 		var request = Y.io(phpurl, cfg);
 	  }
-	  Y.one("#id_delete_path").on("click", removeLearningPath);
+	  //Y.one("#id_delete_path").on("click", removeLearningPath);
+	  var deletePathObj = Y.one ("#id_delete_path"); 
+	  if (deletePathObj) {
+	  	deletePathObj.on ('click', removeLearningPath); 
+	  }
  };
 
  //! actions triggered by elements of the semantic web block
