@@ -80,11 +80,20 @@ foreach($modules as $module) {
 }
 
 // Feststellen, ob man die Rechte besitzt das Kursmodul zu verändern (wichtig, damit nicht jeder die Titel ändern kann)
+// (Moodle 1.9 = 2007101509; Moodle 2.0 = 2010112400; Moodle 2.1 = 2011070100; Moodle 2.2 = 2011120500; Moodle 2.3 = 2012062500)
 //$context = get_context_instance(CONTEXT_COURSE, $mods[$id]->course);
 if($courseview){
-	$context = context_course::instance($courseid);
+    if($CFG->version >= 2011120500) {
+        $context = context_course::instance($courseid);
+    } else {
+        $context = get_context_instance(CONTEXT_COURSE, $courseid);
+    }
 } else {
-	$context = context_course::instance($mods[$id]->course);
+    if($CFG->version >= 2011120500) {
+        $context = context_course::instance($mods[$id]->course);
+    } else {
+        $context = get_context_instance(CONTEXT_COURSE, $mods[$id]->course);
+    }
 }
 
 $editor = has_capability('moodle/course:manageactivities', $context);
