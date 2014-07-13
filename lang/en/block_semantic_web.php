@@ -38,6 +38,7 @@
 	$string['new_pathnode'] = 'Add node to path';
 	
 	///// Allgemeines
+	$string['semantic_web:addinstance'] = 'Add Semantic Web';
 	$string['add'] = 'Add';
 	$string['cancel'] = 'Cancel';
 	$string['submitclose'] = 'Submit and close';

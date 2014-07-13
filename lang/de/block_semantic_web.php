@@ -39,6 +39,7 @@
 	$string['new_pathnode'] = 'Neuen Knoten zum Pfad hinzufügen';
 	
 	///// Allgemeines
+	$string['semantic_web:addinstance'] = 'Netznavigation hinzufügen';
 	$string['add'] = 'Hinzufügen';
 	$string['cancel'] = 'Abbrechen';
 	$string['submitclose'] = 'Speichern und Schließen';
